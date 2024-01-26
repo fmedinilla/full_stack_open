@@ -65,6 +65,7 @@ const App = () => {
   return (
     <>
       <h2>give feedback</h2>
+
       <Button handleClick={handleGood} text="good" />
       <Button handleClick={handleNeutral} text="neutral" />
       <Button handleClick={handleBad} text="bad" />
