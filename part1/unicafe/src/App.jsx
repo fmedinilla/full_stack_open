@@ -88,9 +88,9 @@ const App = () => {
         good={good}
         neutral={neutral}
         bad={bad}
+        total={total}
         average={average}
         positive={positive}
-        total={total}
       />
     </>
   );
