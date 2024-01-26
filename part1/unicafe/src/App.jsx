@@ -4,12 +4,13 @@ const Button = ({ text, handleClick }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Statistics = ({ good, neutral, bad, average, positive }) => (
+const Statistics = ({ good, neutral, bad, average, positive, total }) => (
   <>
     <h2>statistics</h2>
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
+    <p>total {total}</p>
     <p>average {average}</p>
     <p>positive {positive} %</p>
   </>
