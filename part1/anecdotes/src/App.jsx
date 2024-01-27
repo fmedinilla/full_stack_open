@@ -3,6 +3,7 @@ import { useState } from "react";
 const App = () => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState({});
+  const [mostVotes, setMostVotes] = useState(0);
 
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -22,10 +23,17 @@ const App = () => {
 
   const handleVote = () => {
     const newVotes = { ...votes };
+    const prev = newVotes[mostVotes];
+
     if (newVotes[selected]) {
       newVotes[selected] += 1;
     } else {
       newVotes[selected] = 1;
+    }
+
+    if (newVotes[selected] > prev) {
+      const newPrev = selected;
+      setMostVotes(newPrev);
     }
 
     setVotes(newVotes);
@@ -33,10 +41,14 @@ const App = () => {
 
   return (
     <>
+      <h2>Anecdote of the day</h2>
       <div>{anecdotes[selected]}</div>
       <div>has {votes[selected] ?? 0} votes</div>
       <button onClick={handleVote}>vote</button>
       <button onClick={handleNextAnecdote}>next anecdote</button>
+      <h2>Anecdote with most votes</h2>
+      <div>{anecdotes[mostVotes]}</div>
+      <div>has {votes[mostVotes] ?? 0} votes</div>
     </>
   );
 };
