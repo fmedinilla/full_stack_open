@@ -1,4 +1,7 @@
 import { useState } from "react";
+import FilterSection from "./components/FilterSection";
+import AddSection from "./components/AddSection";
+import Phonebook from "./components/Phonebook";
 
 const App = () => {
   const [people, setPeople] = useState([
@@ -11,24 +14,6 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterBy, setFilterBy] = useState("");
-  const [peopleToShow, setPeopleToShow] = useState(people);
-
-  const handleFilterChange = (event) => {
-    const filterCriteria = event.target.value;
-    setFilterBy(filterCriteria);
-
-    if (!filterCriteria) {
-      setPeopleToShow(people);
-      return;
-    }
-
-    setPeopleToShow(
-      people.filter(
-        (person) =>
-          person.name.toLowerCase().indexOf(filterCriteria.toLowerCase()) !== -1
-      )
-    );
-  };
 
   const handleAdd = (event) => {
     event.preventDefault();
@@ -41,49 +26,38 @@ const App = () => {
     }
 
     const person = {
+      id: people.length + 1,
       name: newName,
       number: newNumber,
     };
+
     setPeople(people.concat(person));
     setNewName("");
     setNewNumber("");
   };
 
+  const peopleToShow = !filterBy
+    ? people
+    : people.filter(
+        (person) =>
+          person.name.toLowerCase().indexOf(filterBy.toLowerCase()) !== -1
+      );
+
   return (
     <div>
       <h1>Phonebook</h1>
-      <p>
-        filter shown with{" "}
-        <input type="text" value={filterBy} onChange={handleFilterChange} />
-      </p>
-      <h2>add a new</h2>
-      <form onSubmit={handleAdd}>
-        <div>
-          name:{" "}
-          <input
-            type="text"
-            onChange={(event) => setNewName(event.target.value)}
-            value={newName}
-          />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            type="text"
-            onChange={(event) => setNewNumber(event.target.value)}
-            value={newNumber}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {peopleToShow.map((person) => (
-        <p key={person.name}>
-          {person.name}: {person.number}
-        </p>
-      ))}
+      <FilterSection
+        filterValue={filterBy}
+        handleFilterChange={(event) => setFilterBy(event.target.value)}
+      />
+      <AddSection
+        newName={newName}
+        newNumber={newNumber}
+        handleChangeName={(event) => setNewName(event.target.value)}
+        handleChangeNumber={(event) => setNewNumber(event.target.value)}
+        handleAdd={handleAdd}
+      />
+      <Phonebook people={peopleToShow} />
     </div>
   );
 };
