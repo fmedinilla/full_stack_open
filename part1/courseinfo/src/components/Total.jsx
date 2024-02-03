@@ -1,12 +1,11 @@
 const Total = ({ parts }) => {
-  let sum = 0;
-  parts.forEach((part) => {
-    sum += part.exercises;
-  });
+  const total = parts.reduce((acc, part) => {
+    return acc + part.exercises;
+  }, 0);
 
   return (
     <p>
-      <strong>total of {sum} exercises</strong>
+      <strong>total of {total} exercises</strong>
     </p>
   );
 };
