@@ -6,6 +6,14 @@ const App = () => {
 
   const handleAdd = (event) => {
     event.preventDefault();
+
+    const isValid = !people.map((person) => person.name).includes(newName);
+
+    if (!isValid) {
+      alert(`${newName} is already added to phonebok`);
+      return;
+    }
+
     const person = {
       name: newName,
     };
