@@ -1,11 +1,11 @@
 import Contact from "./Contact";
 
-const Phonebook = ({ people }) => {
+const Phonebook = ({ people, onDelete }) => {
   return (
     <div>
       <h2>Numbers</h2>
       {people.map((person) => (
-        <Contact key={person.id} person={person} />
+        <Contact onDelete={onDelete} key={person.id} person={person} />
       ))}
     </div>
   );

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import peopleService from "./services/people";
 import FilterSection from "./components/FilterSection";
@@ -35,10 +34,21 @@ const App = () => {
 
     peopleService
       .create(person)
-      .then((res) => {
-        setPeople(people.concat(res.data));
+      .then((data) => {
+        setPeople(people.concat(data));
         setNewName("");
         setNewNumber("");
+      })
+      .catch(() => alert("Algo ha salido mal..."));
+  };
+
+  const handleDelete = (id) => {
+    const person = people.find((person) => person.id === id);
+    if (!confirm(`Delete ${person.name}?`)) return;
+    peopleService
+      .deleteById(id)
+      .then((data) => {
+        setPeople((prev) => prev.filter((person) => person.id !== id));
       })
       .catch(() => alert("Algo ha salido mal..."));
   };
@@ -64,7 +74,7 @@ const App = () => {
         handleChangeNumber={(event) => setNewNumber(event.target.value)}
         handleAdd={handleAdd}
       />
-      <Phonebook people={peopleToShow} />
+      <Phonebook onDelete={handleDelete} people={peopleToShow} />
     </div>
   );
 };
