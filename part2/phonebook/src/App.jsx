@@ -38,7 +38,12 @@ const App = () => {
           setSuccessMessaage("");
         }, 3000);
       })
-      .catch(() => alert("Algo ha salido mal..."));
+      .catch(() => {
+        setErrorMessaage("Something went wrong...");
+        setTimeout(() => {
+          setErrorMessaage("");
+        }, 3000);
+      });
   };
 
   const updatePerson = () => {
@@ -69,7 +74,12 @@ const App = () => {
           setSuccessMessaage("");
         }, 3000);
       })
-      .catch(() => alert("Algo ha salido mal..."));
+      .catch(() => {
+        setErrorMessaage("Something went wrong...");
+        setTimeout(() => {
+          setErrorMessaage("");
+        }, 3000);
+      });
   };
 
   const handleAdd = (event) => {
@@ -98,7 +108,12 @@ const App = () => {
           setSuccessMessaage("");
         }, 3000);
       })
-      .catch(() => alert("Algo ha salido mal..."));
+      .catch(() => {
+        setErrorMessaage("Something went wrong...");
+        setTimeout(() => {
+          setErrorMessaage("");
+        }, 3000);
+      });
   };
 
   const peopleToShow = !filterBy
