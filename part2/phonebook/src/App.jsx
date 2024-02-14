@@ -1,19 +1,20 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import FilterSection from "./components/FilterSection";
 import AddSection from "./components/AddSection";
 import Phonebook from "./components/Phonebook";
 
 const App = () => {
-  const [people, setPeople] = useState([
-    { id: 1, name: "Arto Hellas", number: "688 88 88 88" },
-    { id: 2, name: "Martin Fowler", number: "677 77 77 77" },
-    { id: 3, name: "David Martinez", number: "655 55 55 55" },
-    { id: 4, name: "Isaac Marko", number: "699 99 99 99" },
-    { id: 5, name: "Sarah Fer", number: "644 44 44 44" },
-  ]);
+  const [people, setPeople] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterBy, setFilterBy] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons")
+      .then((res) => setPeople(res.data));
+  }, []);
 
   const handleAdd = (event) => {
     event.preventDefault();
