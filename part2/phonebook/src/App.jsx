@@ -27,14 +27,18 @@ const App = () => {
     }
 
     const person = {
-      id: people.length + 1,
       name: newName,
       number: newNumber,
     };
 
-    setPeople(people.concat(person));
-    setNewName("");
-    setNewNumber("");
+    axios
+      .post("http://localhost:3001/persons", person)
+      .then((res) => {
+        setPeople(people.concat(res.data));
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((e) => alert("Algo ha salido mal..."));
   };
 
   const peopleToShow = !filterBy
