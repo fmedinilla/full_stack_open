@@ -3,12 +3,15 @@ import peopleService from "./services/people";
 import FilterSection from "./components/FilterSection";
 import AddSection from "./components/AddSection";
 import Phonebook from "./components/Phonebook";
+import Message from "./components/Message";
 
 const App = () => {
   const [people, setPeople] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterBy, setFilterBy] = useState("");
+  const [errorMessage, setErrorMessaage] = useState("");
+  const [successMessage, setSuccessMessaage] = useState("");
 
   useEffect(() => {
     peopleService
@@ -29,6 +32,11 @@ const App = () => {
         setPeople(people.concat(data));
         setNewName("");
         setNewNumber("");
+
+        setSuccessMessaage(`${data.name} added.`);
+        setTimeout(() => {
+          setSuccessMessaage("");
+        }, 3000);
       })
       .catch(() => alert("Algo ha salido mal..."));
   };
@@ -55,6 +63,11 @@ const App = () => {
 
         setNewName("");
         setNewNumber("");
+
+        setSuccessMessaage(`${data.name} updated.`);
+        setTimeout(() => {
+          setSuccessMessaage("");
+        }, 3000);
       })
       .catch(() => alert("Algo ha salido mal..."));
   };
@@ -79,6 +92,11 @@ const App = () => {
       .deleteById(id)
       .then((data) => {
         setPeople((prev) => prev.filter((person) => person.id !== id));
+
+        setSuccessMessaage(`${data.name} deleted.`);
+        setTimeout(() => {
+          setSuccessMessaage("");
+        }, 3000);
       })
       .catch(() => alert("Algo ha salido mal..."));
   };
@@ -92,6 +110,8 @@ const App = () => {
 
   return (
     <div>
+      {errorMessage && <Message type="error" text={errorMessage} />}
+      {successMessage && <Message type="success" text={successMessage} />}
       <h1>Phonebook</h1>
       <FilterSection
         filterValue={filterBy}
