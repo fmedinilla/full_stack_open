@@ -17,16 +17,7 @@ const App = () => {
       .catch(() => alert("Algo ha salido mal..."));
   }, []);
 
-  const handleAdd = (event) => {
-    event.preventDefault();
-
-    const isValid = !people.map((person) => person.name).includes(newName);
-
-    if (!isValid) {
-      alert(`${newName} is already added to phonebok`);
-      return;
-    }
-
+  const addPerson = () => {
     const person = {
       name: newName,
       number: newNumber,
@@ -40,6 +31,45 @@ const App = () => {
         setNewNumber("");
       })
       .catch(() => alert("Algo ha salido mal..."));
+  };
+
+  const updatePerson = () => {
+    const personToUpdate = people.find((person) => person.name === newName);
+    const personUpdated = { ...personToUpdate, number: newNumber };
+
+    if (
+      !confirm(
+        `${personToUpdate.name} is already added to phonebook, replace the old number with a new one?`
+      )
+    )
+      return;
+
+    peopleService
+      .update(personToUpdate.id, personUpdated)
+      .then((data) => {
+        setPeople((prev) =>
+          prev.map((person) =>
+            person.id === personToUpdate.id ? data : person
+          )
+        );
+
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch(() => alert("Algo ha salido mal..."));
+  };
+
+  const handleAdd = (event) => {
+    event.preventDefault();
+
+    const isAlready = people.map((person) => person.name).includes(newName);
+
+    if (isAlready) {
+      updatePerson();
+      return;
+    }
+
+    addPerson();
   };
 
   const handleDelete = (id) => {
