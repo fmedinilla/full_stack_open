@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import peopleService from "./services/people";
 import FilterSection from "./components/FilterSection";
 import AddSection from "./components/AddSection";
 import Phonebook from "./components/Phonebook";
@@ -11,9 +12,10 @@ const App = () => {
   const [filterBy, setFilterBy] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((res) => setPeople(res.data));
+    peopleService
+      .getAll()
+      .then((data) => setPeople(data))
+      .catch(() => alert("Algo ha salido mal..."));
   }, []);
 
   const handleAdd = (event) => {
@@ -31,14 +33,14 @@ const App = () => {
       number: newNumber,
     };
 
-    axios
-      .post("http://localhost:3001/persons", person)
+    peopleService
+      .create(person)
       .then((res) => {
         setPeople(people.concat(res.data));
         setNewName("");
         setNewNumber("");
       })
-      .catch((e) => alert("Algo ha salido mal..."));
+      .catch(() => alert("Algo ha salido mal..."));
   };
 
   const peopleToShow = !filterBy
