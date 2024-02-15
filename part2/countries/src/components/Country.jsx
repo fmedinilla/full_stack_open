@@ -1,4 +1,6 @@
-function Country({ country }) {
+function Country(props) {
+  console.log(props);
+  const { country } = props;
   return (
     <>
       <h1>{country.name.common}</h1>
@@ -16,7 +18,11 @@ function Country({ country }) {
           <li key={lan}>{lan}</li>
         ))}
       </ul>
-      <img src={country.flags.png} alt={`Flag of ${country.name.common}`} />
+      <img
+        style={{ border: "1px solid black", padding: "1rem" }}
+        src={country.flags.png}
+        alt={`Flag of ${country.name.common}`}
+      />
     </>
   );
 }
